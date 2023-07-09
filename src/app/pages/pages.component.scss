@@ -1,26 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  background: #232125;
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  color: #fff;
-}
-
-.element-bg {
-  background: #363437;
-}
-
-.pointer {
-  cursor: pointer;
-}
-
-.page-title {
-  margin-left: 15px;
-}
-
 .container {
   width: 100%;
   padding-right: 15px;
@@ -28,11 +5,6 @@ body {
   margin-right: auto;
   margin-left: auto;
 }
-
-.content-space {
-  margin-top: 20px;
-}
-
 @media (min-width: 576px) {
   .container {
     width: 540px;
