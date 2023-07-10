@@ -86,7 +86,7 @@ describe('CurrencyConverterComponent', () => {
   it('should set form values to conversion response', fakeAsync(() => {
     component.currencyResult = TESTCONVERSIONRESULT;
     component.ngOnChanges();
-    tick(500);
+    tick(400);
     fixture.detectChanges();
     expect(form.get('amount')?.value).toBe(
       TESTCONVERSIONRESULT.query.amount.toString()

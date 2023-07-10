@@ -63,10 +63,10 @@ describe('DetailComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'EUR - USD Details'`, () => {
+  it(`should have as title 'EUR - European Union Euro'`, () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h2')?.textContent).toContain(
-      'EUR - USD Details'
+      'EUR - European Union Euro'
     );
   });
 

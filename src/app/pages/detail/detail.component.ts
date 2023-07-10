@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CURRENCIES } from 'src/app/core/data/currencies';
+import { CURRENCIES, CURRENCYNAMES } from 'src/app/core/data/currencies';
 import { ConvertedCurrency } from 'src/app/core/interfaces/converted-currency';
 import { DataService } from 'src/app/core/services/data.service';
 import { ConversionForm } from '../../core/interfaces/conversion-form';
@@ -23,6 +23,7 @@ export class DetailComponent implements OnInit {
   chartData: number[] = [];
   from = '';
   to = '';
+  title = '';
 
   constructor(
     private dataService: DataService,
@@ -51,6 +52,10 @@ export class DetailComponent implements OnInit {
       this.from = this.rateResult.query.from;
       this.to = this.rateResult.query.to;
     }
+
+    this.title = `${this.from} - ${
+      CURRENCYNAMES[this.from as keyof typeof CURRENCYNAMES]
+    }`;
 
     this.loadChartData();
   }

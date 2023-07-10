@@ -5,12 +5,14 @@
       <input type="number" formControlName="amount" />
     </div>
     <div fxFlex="100" fxFlex.gt-xs="29">
+       <fieldset [disabled]="!showDetailButton">
       <label>From</label>
       <select formControlName="from">
         <option [value]=currency *ngFor="let currency of fromCurrencies">{{currency}}</option>
       </select>
+      </fieldset>
     </div>
-    <div fxFlex="100" fxFlex.gt-xs="13">
+    <div fxFlex="100" fxFlex.gt-xs="13" fxLayoutAlign="center">
       <fa-icon [icon]="arrow" class="fa-3x switch-icon pointer" (click)="switchCurrency()"
         [appTooltip]="'Switch Currency'"></fa-icon>
     </div>

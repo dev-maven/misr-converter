@@ -49,7 +49,7 @@ export class CurrencyConverterComponent
     this.toCurrencies = [...this.currencies];
     this.amountSub = this.converterForm
       .get('amount')
-      ?.valueChanges.pipe(debounceTime(450), distinctUntilChanged())
+      ?.valueChanges.pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((res) => {
         this.enableForm(res);
       });
@@ -70,7 +70,7 @@ export class CurrencyConverterComponent
       const currentRate = this.rate;
       this.patchFormControl('from', this.from);
       this.patchFormControl('to', this.to);
-      setTimeout(() => (this.rate = currentRate), 450);
+      setTimeout(() => (this.rate = currentRate), 400);
     }
     if (this.currencyResult?.success) {
       this.patchFormControl(
@@ -90,7 +90,7 @@ export class CurrencyConverterComponent
           'result',
           this.currencyResult?.result?.toString()
         );
-      }, 450);
+      }, 400);
     }
   }
 
