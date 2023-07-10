@@ -2,24 +2,23 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
 import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
-import { ConvertedCurrency } from 'src/app/core/models/converted-currency';
+import { ConvertedCurrency } from 'src/app/core/interfaces/converted-currency';
 
 @Component({
-  selector: 'app-converter',
-  templateUrl: './converter.component.html',
-  styleUrls: ['./converter.component.scss'],
+  selector: 'app-currency-converter',
+  templateUrl: './currency-converter.component.html',
+  styleUrls: ['./currency-converter.component.scss'],
 })
-export class ConverterComponent implements OnInit {
-  @Input()
-  currencyResult!: ConvertedCurrency;
-  @Input()
-  currencies!: string[];
+export class CurrencyConverterComponent implements OnInit {
+  @Input() currencyResult!: ConvertedCurrency;
+  @Input() currencies!: string[];
   @Input() showDetailButton = false;
   @Input() from = '';
   @Input() to = '';
   @Input() rate = 'Unavailable';
-  @Output() convertCurrency = new EventEmitter<any>();
-  @Output() navigateToDetail = new EventEmitter<any>();
+  @Output() convertCurrency = new EventEmitter();
+  @Output() navigateToDetail = new EventEmitter();
+  @Output() currentResult = new EventEmitter();
   fromCurrencies!: string[];
   toCurrencies!: string[];
   arrow = faArrowsLeftRight;
@@ -32,6 +31,7 @@ export class ConverterComponent implements OnInit {
   amountSub: Subscription | undefined;
   fromSub: Subscription | undefined;
   toSub: Subscription | undefined;
+  resultSub: Subscription | undefined;
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
@@ -40,13 +40,23 @@ export class ConverterComponent implements OnInit {
     this.amountSub = this.converterForm
       .get('amount')
       ?.valueChanges.pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((res) => this.enableForm(res));
+      .subscribe((res) => {
+        this.enableForm(res);
+      });
     this.fromSub = this.converterForm
       .get('from')
       ?.valueChanges.subscribe((res) => this.filterCurrency(res, 'from'));
     this.toSub = this.converterForm
       .get('to')
       ?.valueChanges.subscribe((res) => this.filterCurrency(res, 'to'));
+
+    this.resultSub = this.converterForm
+      .get('result')
+      ?.valueChanges.subscribe(() =>
+        setTimeout(() => {
+          this.currentResult.emit(this.converterForm.get('result')?.value);
+        }, 1000)
+      );
   }
 
   ngOnChanges() {
@@ -57,7 +67,6 @@ export class ConverterComponent implements OnInit {
       setTimeout(() => (this.rate = currentRate), 500);
     }
     if (this.currencyResult?.success) {
-      this.patchFormControl('result', this.currencyResult?.result?.toString());
       this.patchFormControl(
         'from',
         this.currencyResult.query.from.toUpperCase()
@@ -69,10 +78,13 @@ export class ConverterComponent implements OnInit {
       );
       this.enableForm(this.converterForm.get('amount')?.value || '');
 
-      setTimeout(
-        () => (this.rate = this.currencyResult.info.quote.toString()),
-        500
-      );
+      setTimeout(() => {
+        this.rate = this.currencyResult.info.rate.toString();
+        this.patchFormControl(
+          'result',
+          this.currencyResult?.result?.toString()
+        );
+      }, 500);
     }
   }
 
@@ -81,12 +93,12 @@ export class ConverterComponent implements OnInit {
   }
 
   switchCurrency() {
-    const to = this.converterForm.get('to')?.value || '';
-    const from = this.converterForm.get('from')?.value || '';
+    const to = this.converterForm.get('to')?.value;
+    const from = this.converterForm.get('from')?.value;
     this.rate = 'Unavailable';
     this.converterForm.get('result')?.patchValue('');
-    this.converterForm.get('to')?.patchValue(from);
-    this.converterForm.get('from')?.patchValue(to);
+    this.converterForm.get('to')?.patchValue(from || null);
+    this.converterForm.get('from')?.patchValue(to || null);
   }
   onConvert() {
     this.convertCurrency.emit(this.converterForm.value);
@@ -94,6 +106,7 @@ export class ConverterComponent implements OnInit {
 
   filterCurrency(value: string | null, category: string) {
     this.rate = 'Unavailable';
+    this.converterForm.get('result')?.patchValue('');
     if (category === 'from') {
       this.toCurrencies = this.currencies.filter((item) => item !== value);
     } else {
@@ -109,6 +122,9 @@ export class ConverterComponent implements OnInit {
     if (amount) {
       this.converterForm.get('from')?.enable();
       this.converterForm.get('to')?.enable();
+    } else {
+      this.converterForm.get('from')?.disable();
+      this.converterForm.get('to')?.disable();
     }
   }
 
@@ -121,6 +137,9 @@ export class ConverterComponent implements OnInit {
     }
     if (this.toSub) {
       this.toSub.unsubscribe();
+    }
+    if (this.resultSub) {
+      this.resultSub.unsubscribe();
     }
   }
 }

@@ -6,7 +6,7 @@ export interface ConvertedCurrency {
 }
 
 interface infoObject {
-  quote: number;
+  rate: number;
   timeStamp: number;
 }
 

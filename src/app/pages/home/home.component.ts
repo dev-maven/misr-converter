@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ConversionForm } from '../../core/models/conversion-form';
 import { DataService } from '../../core/services/data.service';
-import { ConvertedCurrency } from '../../core/models/converted-currency';
+import { ConvertedCurrency } from '../../core/interfaces/converted-currency';
 import { CURRENCIES } from 'src/app/core/data/currencies';
 import { Router } from '@angular/router';
+import { ConversionForm } from 'src/app/core/interfaces/conversion-form';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,8 @@ export class HomeComponent implements OnInit {
   cardObject = {};
   from = '';
   to = '';
-  amount = '';
+  amount!: number;
+  result!: number | '';
   constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit() {
@@ -26,7 +27,7 @@ export class HomeComponent implements OnInit {
     if (this.rateResult) {
       this.from = this.rateResult.query.from;
       this.to = this.rateResult.query.to;
-      this.amount = this.rateResult.query.amount.toString();
+      this.amount = +this.rateResult.query.amount.toFixed(2);
       this.loadCardData();
     }
     const initObject = {
@@ -36,9 +37,9 @@ export class HomeComponent implements OnInit {
       result: 0,
     };
 
-    this.dataService
-      .convertCurrency(initObject)
-      .subscribe((res) => (this.initRate = res.result));
+    this.dataService.convertCurrency(initObject).subscribe((res) => {
+      this.initRate = res.result;
+    });
   }
 
   openDetail() {
@@ -48,26 +49,34 @@ export class HomeComponent implements OnInit {
   }
 
   loadCardData() {
+    const currencies = CURRENCIES.filter((item) => item !== this.from);
     this.dataService
-      .convertCurrencies(this.from, this.supportedCurrencies)
+      .convertCurrencies(this.from, currencies)
       .subscribe((res) => {
-        for (const key in res.quotes) {
-          const newKey = key.substring(3);
+        this.cardObject = {};
+        for (const key in res.rates) {
           this.cardObject = {
             ...this.cardObject,
-            [newKey]: res.quotes[key] * +this.amount,
+            [key]: (res.rates[key] * +this.amount).toFixed(2),
           };
         }
       });
   }
 
-  convert(formData: any) {
+  clearCards(event: string) {
+    if (!event) {
+      this.cardObject = [];
+    }
+  }
+
+  convert(formData: ConversionForm) {
     this.from = formData.from;
     this.to = formData.to;
-    this.amount = formData.amount;
-    this.dataService
-      .convertCurrency(formData)
-      .subscribe((res) => (this.rateResult = res));
+    const amount = +formData.amount;
+    this.amount = +amount.toFixed(2);
+    this.dataService.convertCurrency(formData).subscribe((res) => {
+      this.rateResult = res;
+    });
 
     this.loadCardData();
   }

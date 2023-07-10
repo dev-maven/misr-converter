@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ConvertedCurrency } from '../models/converted-currency';
-import { ConversionForm } from '../models/conversion-form';
+import { ConvertedCurrency } from '../interfaces/converted-currency';
+import { ConversionForm } from '../interfaces/conversion-form';
 
 @Injectable()
 export class DataService {
@@ -12,35 +12,19 @@ export class DataService {
 
   convertCurrency(formData: ConversionForm): Observable<ConvertedCurrency> {
     return this.http.get<ConvertedCurrency>(
-      `${this.baseUrl}currency_data/convert?to=${formData.to}&from=${formData.from}&amount=${formData.amount}`
+      `${this.baseUrl}convert?to=${formData.to}&from=${formData.from}&amount=${formData.amount}`
     );
   }
 
   convertCurrencies(source: string, currencies: string[]): Observable<any> {
     return this.http.get<any>(
-      `${
-        this.baseUrl
-      }currency_data/live?source=${source}&currencies=${currencies.toString()}`
+      `${this.baseUrl}latest?symbols=${currencies.toString()}&base=${source}`
     );
   }
 
   history(source: string, currencies: string, date: string): Observable<any> {
     return this.http.get<any>(
-      `${this.baseUrl}currency_data/historical?source=${source}&currencies=${currencies}&date=${date}`
+      `${this.baseUrl}${date}?symbols=${currencies}&base=${source}`
     );
-  }
-
-  getTopRatedMovies(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/movie/top_rated`);
-  }
-
-  getany(id: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/movie/${id}`);
-  }
-
-  searchMovies(queryString: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/search/movie`, {
-      params: { query: queryString },
-    });
   }
 }
