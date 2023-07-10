@@ -35,7 +35,8 @@
         </span></span>
     </div>
     <div fxFlex="100" fxFlex.gt-xs="31.8" *ngIf="showDetailButton">
-      <button class="detail-button pointer" routerLink="/{{converterForm.get('to')?.value}}/detail">More
+      <button type="button" class="detail-button pointer" (click)="onNavigate()"
+        [disabled]="!converterForm.get('result')?.value">More
         Details</button>
     </div>
 
