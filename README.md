@@ -1,10 +1,10 @@
 # MisrConverter
 
 <p align="center">
-  <img src="src/assets/images/home-page.png" width="350" title="Application Home page">
+  <img src="src/assets/images/home-page.png" width="500" title="Application Home page">
 </p>
 <p align="center">
-  <img src="src/assets/images/detail-page.png" width="350" alt="Application Detail page">
+  <img src="src/assets/images/detail-page.png" width="500" alt="Application Detail page">
 </p>
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.2.
