@@ -1,5 +1,7 @@
 # MisrConverter
 
+An angular application for Currency conversion and historical data chart using Fixer API
+
 <p align="center">
   <img src="src/assets/images/home-page.png" width="500" title="Application Home page">
 </p>
