@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   cardObject = {};
   from = '';
   to = '';
+  showCards = false;
   amount!: number;
   result!: number | '';
   constructor(private dataService: DataService, private router: Router) {}
@@ -63,10 +64,8 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  clearCards(event: string) {
-    if (!event) {
-      this.cardObject = [];
-    }
+  clearCards(event: number) {
+    this.showCards = event ? true : false;
   }
 
   convert(formData: ConversionForm) {

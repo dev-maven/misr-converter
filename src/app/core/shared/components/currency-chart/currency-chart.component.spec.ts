@@ -1,17 +1,7 @@
-/* tslint:disable:no-unused-variable */
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-
-import {
-  CurrencyChartComponent,
-  ChartOptions,
-} from './currency-chart.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CurrencyChartComponent } from './currency-chart.component';
 import { TESTCHARTOPTIONS } from 'src/app/core/data/test-data';
 
 describe('CurrencyChartComponent', () => {

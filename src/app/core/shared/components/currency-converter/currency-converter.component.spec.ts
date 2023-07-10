@@ -1,9 +1,6 @@
-/* tslint:disable:no-unused-variable */
 import {
-  async,
   ComponentFixture,
   fakeAsync,
-  flush,
   TestBed,
   tick,
   waitForAsync,

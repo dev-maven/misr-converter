@@ -1,22 +1,26 @@
-import { ConvertedCurrency } from '../interfaces/converted-currency';
+import {
+  ConvertedCurrencies,
+  ConvertedCurrency,
+} from '../interfaces/converted-currency';
 import { ChartOptions } from '../shared/components/currency-chart/currency-chart.component';
 
 export const TESTCARDDATA = {
-  USD: 52.74594999999999,
-  JPY: 7197.500150000001,
-  GBP: 43.121900000000004,
-  CNY: 367.50219999999996,
-  AUD: 77.9395,
-  CAD: 71.59894999999999,
-  CHF: 49.3681,
-  HKD: 410.54825,
-  SGD: 71.3724,
+  USD: '52.75',
+  JPY: '7197.50',
+  GBP: '43.12',
+  CNY: '367.50',
+  AUD: '77.94',
+  CAD: '71.60',
+  CHF: '49.37',
+  HKD: '410.55',
+  SGD: '71.37',
 };
 
-export const TESTCURRENCIESRESULT = {
+export const TESTCURRENCIESRESULT: ConvertedCurrencies = {
   success: true,
-  timestamp: 1670518922,
-  source: 'EUR',
+  timestamp: 20,
+  base: 'EUR',
+  date: '2023-05-31',
   rates: {
     USD: 1.054919,
     JPY: 143.950003,

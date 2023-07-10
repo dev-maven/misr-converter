@@ -8,14 +8,14 @@ const routes: Routes = [
     component: PagesComponent,
     children: [
       {
-        path: '',
-        loadChildren: () =>
-          import('./pages/home/home.module').then((m) => m.HomeModule),
-      },
-      {
         path: ':from/:to/detail',
         loadChildren: () =>
           import('./pages/detail/detail.module').then((m) => m.DetailModule),
+      },
+      {
+        path: '',
+        loadChildren: () =>
+          import('./pages/home/home.module').then((m) => m.HomeModule),
       },
     ],
   },

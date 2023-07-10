@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
 import {
   HttpEvent,
@@ -6,7 +7,6 @@ import {
   HttpRequest,
   HttpResponse,
   HttpErrorResponse,
-  HttpParams,
 } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, throwError } from 'rxjs';

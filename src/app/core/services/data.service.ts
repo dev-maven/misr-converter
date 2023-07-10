@@ -2,7 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ConvertedCurrency } from '../interfaces/converted-currency';
+import {
+  ConvertedCurrencies,
+  ConvertedCurrency,
+} from '../interfaces/converted-currency';
 import { ConversionForm } from '../interfaces/conversion-form';
 
 @Injectable()
@@ -16,14 +19,21 @@ export class DataService {
     );
   }
 
-  convertCurrencies(source: string, currencies: string[]): Observable<any> {
-    return this.http.get<any>(
+  convertCurrencies(
+    source: string,
+    currencies: string[]
+  ): Observable<ConvertedCurrencies> {
+    return this.http.get<ConvertedCurrencies>(
       `${this.baseUrl}latest?symbols=${currencies.toString()}&base=${source}`
     );
   }
 
-  history(source: string, currencies: string, date: string): Observable<any> {
-    return this.http.get<any>(
+  history(
+    source: string,
+    currencies: string,
+    date: string
+  ): Observable<ConvertedCurrencies> {
+    return this.http.get<ConvertedCurrencies>(
       `${this.baseUrl}${date}?symbols=${currencies}&base=${source}`
     );
   }

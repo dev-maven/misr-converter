@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnChanges,
+  OnDestroy,
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
 import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
@@ -9,7 +17,9 @@ import { ConvertedCurrency } from 'src/app/core/interfaces/converted-currency';
   templateUrl: './currency-converter.component.html',
   styleUrls: ['./currency-converter.component.scss'],
 })
-export class CurrencyConverterComponent implements OnInit {
+export class CurrencyConverterComponent
+  implements OnInit, OnChanges, OnDestroy
+{
   @Input() currencyResult!: ConvertedCurrency;
   @Input() currencies!: string[];
   @Input() showDetailButton = false;
@@ -39,7 +49,7 @@ export class CurrencyConverterComponent implements OnInit {
     this.toCurrencies = [...this.currencies];
     this.amountSub = this.converterForm
       .get('amount')
-      ?.valueChanges.pipe(debounceTime(500), distinctUntilChanged())
+      ?.valueChanges.pipe(debounceTime(450), distinctUntilChanged())
       .subscribe((res) => {
         this.enableForm(res);
       });
@@ -50,13 +60,9 @@ export class CurrencyConverterComponent implements OnInit {
       .get('to')
       ?.valueChanges.subscribe((res) => this.filterCurrency(res, 'to'));
 
-    this.resultSub = this.converterForm
-      .get('result')
-      ?.valueChanges.subscribe(() =>
-        setTimeout(() => {
-          this.currentResult.emit(this.converterForm.get('result')?.value);
-        }, 1000)
-      );
+    this.resultSub = this.converterForm.valueChanges.subscribe(() => {
+      this.currentResult.emit(this.converterForm.get('result')?.value);
+    });
   }
 
   ngOnChanges() {
@@ -64,7 +70,7 @@ export class CurrencyConverterComponent implements OnInit {
       const currentRate = this.rate;
       this.patchFormControl('from', this.from);
       this.patchFormControl('to', this.to);
-      setTimeout(() => (this.rate = currentRate), 500);
+      setTimeout(() => (this.rate = currentRate), 450);
     }
     if (this.currencyResult?.success) {
       this.patchFormControl(
@@ -84,7 +90,7 @@ export class CurrencyConverterComponent implements OnInit {
           'result',
           this.currencyResult?.result?.toString()
         );
-      }, 500);
+      }, 450);
     }
   }
 

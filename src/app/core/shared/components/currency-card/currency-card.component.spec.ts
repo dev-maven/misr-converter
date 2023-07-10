@@ -1,19 +1,9 @@
-/* tslint:disable:no-unused-variable */
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  waitForAsync,
-} from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CurrencyCardComponent } from './currency-card.component';
 
 describe('CurrencyCardComponent', () => {
   let component: CurrencyCardComponent;
   let fixture: ComponentFixture<CurrencyCardComponent>;
-  let el: DebugElement;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HomeComponent } from './home.component';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
@@ -17,7 +18,7 @@ describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let dataService: any;
-  let routerSpy = { navigateByUrl: jasmine.createSpy('navigateByUrl') };
+  const routerSpy = { navigateByUrl: jasmine.createSpy('navigateByUrl') };
   beforeEach(waitForAsync(async () => {
     const dataServiceSpy = jasmine.createSpyObj('DataService', [
       'convertCurrencies',
@@ -38,7 +39,7 @@ describe('HomeComponent', () => {
         fixture = TestBed.createComponent(HomeComponent);
         component = fixture.componentInstance;
         dataService = TestBed.inject(DataService);
-        component.amount = '50';
+        component.amount = 50;
         component.from = 'EUR';
         component.to = 'USD';
         dataService.convertCurrency.and.returnValue(of(TESTCONVERSIONRESULT));
@@ -76,6 +77,7 @@ describe('HomeComponent', () => {
   });
 
   it('should render 9 Card Currency Component', () => {
+    component.showCards = true;
     fixture.detectChanges();
     const cards = fixture.debugElement.queryAll(By.css('app-currency-card'));
     expect(cards.length).toBe(9);

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CURRENCIES } from 'src/app/core/data/currencies';
 import { ConvertedCurrency } from 'src/app/core/interfaces/converted-currency';
@@ -28,9 +28,7 @@ export class DetailComponent implements OnInit {
     private dataService: DataService,
     private router: Router,
     private route: ActivatedRoute
-  ) {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-  }
+  ) {}
 
   ngOnInit() {
     const routeData = history.state;
@@ -147,7 +145,7 @@ export class DetailComponent implements OnInit {
     }
   }
 
-  convert(formData: any) {
+  convert(formData: ConversionForm) {
     this.dataService.convertCurrency(formData).subscribe((res) => {
       this.rateResult = res;
       this.from = formData.from;
