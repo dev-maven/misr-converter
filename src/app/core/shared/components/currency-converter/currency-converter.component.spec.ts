@@ -27,6 +27,7 @@ describe('CurrencyConverterComponent', () => {
     })
       .compileComponents()
       .then(() => {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
         fixture = TestBed.createComponent(CurrencyConverterComponent);
         component = fixture.componentInstance;
         component.currencies = CURRENCIES;

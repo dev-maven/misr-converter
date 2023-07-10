@@ -4,11 +4,13 @@
     (convertCurrency)="convert($event)" [showDetailButton]="true" (navigateToDetail)="openDetail()" (currentResult)="clearCards($event)">
   </app-currency-converter>
 
+  <div class="page-content">
   <div fxLayout="row wrap" class="content-space" fxLayoutGap="15px grid" *ngIf="showCards">
     <div fxFlex="100" fxFlex.gt-xs="33.3" *ngFor="let item of cardObject | keyvalue">
       <app-currency-card *ngIf="from && item.value" [from]="amount  + ' ' + from" [to]="item.value + ' ' + item.key">
       </app-currency-card>
     </div>
-  </div>
 
+</div>
+</div>
 </div>

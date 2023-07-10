@@ -16,10 +16,11 @@
       </app-currency-converter>
     </div>
   </div>
-
+  <div class="page-content">
   <div fxLayout="row wrap">
     <div fxFlex="100" class="element-bg content-space" *ngIf="chartData.length > 0 && labels.length > 0">
       <app-currency-chart [chartLabel]="labels" [dataSet]="chartData" [to]="to" [from]="from"></app-currency-chart>
     </div>
   </div>
+</div>
 </div>
